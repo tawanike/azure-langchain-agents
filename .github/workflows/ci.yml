@@ -1,10 +1,11 @@
-name: CI
+name: CI/CD
 
 on:
   push:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -39,7 +40,74 @@ jobs:
         AZURE_OPENAI_EMBEDDING_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_EMBEDDING_DEPLOYMENT }}
         AZURE_OPENAI_API_EMBEDDINGS_VERSION: ${{ secrets.AZURE_OPENAI_API_EMBEDDINGS_VERSION }}
 
+    - name: Test package import (with Azure credentials)
+      run: |
+        echo "Testing package import with Azure credentials..."
+        node -e "
+          try {
+            const { azureClient } = await import('./dist/src/clients/index.js');
+            console.log('✅ Package imports successfully with Azure credentials');
+          } catch (error) {
+            console.error('❌ Package import failed:', error.message);
+            process.exit(1);
+          }
+        "
+      env:
+        AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+        AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+        AZURE_OPENAI_DEPLOYMENT_NAME: ${{ secrets.AZURE_OPENAI_DEPLOYMENT_NAME }}
+        AZURE_OPENAI_API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION }}
+        AZURE_OPENAI_EMBEDDING_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_EMBEDDING_DEPLOYMENT }}
+        AZURE_OPENAI_API_EMBEDDINGS_VERSION: ${{ secrets.AZURE_OPENAI_API_EMBEDDINGS_VERSION }}
+
+    - name: Test package import (without Azure credentials)
+      run: |
+        echo "Testing package import without Azure credentials..."
+        node -e "
+          try {
+            const { azureClient } = await import('./dist/src/clients/index.js');
+            console.log('✅ Package imports successfully without Azure credentials');
+          } catch (error) {
+            console.error('❌ Package import failed:', error.message);
+            process.exit(1);
+          }
+        "
+
     - name: Check TypeScript
+      run: npx tsc --noEmit
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'yarn'
+
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+
+    - name: Build project
+      run: yarn build
+
+    - name: Test package import
+      run: |
+        echo "Testing package import..."
+        node -e "
+          try {
+            const { azureClient } = require('./dist/index.js');
+            console.log('✅ Package imports successfully');
+          } catch (error) {
+            console.error('❌ Package import failed:', error.message);
+            process.exit(1);
+          }
+        "
+
+    - name: Test TypeScript compilation
       run: npx tsc --noEmit
 
   security:
