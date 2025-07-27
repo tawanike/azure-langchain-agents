@@ -16,6 +16,9 @@
     "type": "git",
     "url": "https://github.com/tawanike/azure-langchain-agents.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "license": "ISC",
   "type": "module",
   "dependencies": {

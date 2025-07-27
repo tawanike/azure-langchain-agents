@@ -20,9 +20,29 @@ A TypeScript project for building AI agents using LangChain and Azure OpenAI ser
 
 ## 🛠️ Installation
 
+### **From GitHub Package Registry (Recommended)**
+
+1. **Create a GitHub Personal Access Token**
+   - Go to GitHub Settings → Developer settings → Personal access tokens
+   - Generate a new token with `read:packages` scope
+   - Copy the token
+
+2. **Configure npm to use GitHub packages**
+   ```bash
+   npm login --registry=https://npm.pkg.github.com
+   # Enter your GitHub username and the token as password
+   ```
+
+3. **Install the package**
+   ```bash
+   npm install @tawanike/azure-langchain-agents
+   ```
+
+### **From Source**
+
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/azure-langchain-agents.git
+   git clone https://github.com/tawanike/azure-langchain-agents.git
    cd azure-langchain-agents
    ```
 
@@ -66,7 +86,13 @@ azure-langchain-agents/
 ### Basic Usage
 
 ```typescript
-import { azureClient } from "./src/clients/azure.js";
+import { azureClient } from "@tawanike/azure-langchain-agents";
+
+// Set up your environment variables
+process.env.AZURE_OPENAI_API_KEY = "your_api_key";
+process.env.AZURE_OPENAI_ENDPOINT = "your_endpoint";
+process.env.AZURE_OPENAI_DEPLOYMENT_NAME = "your_deployment";
+process.env.AZURE_OPENAI_API_VERSION = "2024-02-15-preview";
 
 // Get the chat model
 const model = await azureClient.getModel();
@@ -127,6 +153,26 @@ The project uses a modern TypeScript configuration with:
 | `AZURE_OPENAI_API_VERSION` | API version | Yes |
 | `AZURE_OPENAI_EMBEDDING_DEPLOYMENT` | Embeddings deployment name | Yes |
 | `AZURE_OPENAI_API_EMBEDDINGS_VERSION` | Embeddings API version | Yes |
+
+## 📦 Publishing to GitHub Packages
+
+To publish this package to GitHub Packages:
+
+1. **Create a GitHub Personal Access Token**
+   - Go to GitHub Settings → Developer settings → Personal access tokens
+   - Generate a new token with `write:packages` scope
+   - Copy the token
+
+2. **Login to GitHub Package Registry**
+   ```bash
+   npm login --registry=https://npm.pkg.github.com
+   # Enter your GitHub username and the token as password
+   ```
+
+3. **Publish the package**
+   ```bash
+   npm publish
+   ```
 
 ## 🤝 Contributing
 
