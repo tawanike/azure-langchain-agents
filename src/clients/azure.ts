@@ -5,7 +5,7 @@ import { AzureChatOpenAI, AzureOpenAIEmbeddings } from "@langchain/openai";
 dotenv.config();
 
 
-class AzureClient {
+export class AzureClient {
     private readonly model: AzureChatOpenAI;
     private readonly embeddings: AzureOpenAIEmbeddings;
 

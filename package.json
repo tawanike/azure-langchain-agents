@@ -1,16 +1,21 @@
 {
-  "name": "azure-langchain-agents",
+  "name": "@tawanike/azure-langchain-agents",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A TypeScript project for building AI agents using LangChain and Azure OpenAI services",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "node --loader ts-node/esm test.ts",
     "test": "node test.ts",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prepublishOnly": "yarn build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["azure", "openai", "langchain", "ai", "agents", "typescript"],
+  "author": "tawanike",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tawanike/azure-langchain-agents.git"
+  },
   "license": "ISC",
   "type": "module",
   "dependencies": {
