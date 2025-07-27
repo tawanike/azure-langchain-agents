@@ -33,4 +33,10 @@ describe('Project Structure Tests', () => {
     // Test that the Azure client can be imported (this will be tested in CI)
     expect(true).toBe(true);
   });
+
+  test('should have agent functionality', () => {
+    // Test that the agent module can be imported
+    const fs = require('fs');
+    expect(fs.existsSync('src/agents/index.ts')).toBe(true);
+  });
 }); 

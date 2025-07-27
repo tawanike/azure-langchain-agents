@@ -52,6 +52,22 @@ jobs:
             process.exit(1);
           }
         "
+
+    - name: Test agent functionality (with Azure credentials)
+      run: |
+        echo "Testing agent functionality with Azure credentials..."
+        node -e "
+          try {
+            const { azureClient } = await import('./dist/src/clients/index.js');
+            const { createAgent } = await import('./dist/src/agents/index.js');
+            const model = await azureClient.getModel();
+            const agent = await createAgent(model, []);
+            console.log('✅ Agent created successfully with Azure credentials');
+          } catch (error) {
+            console.error('❌ Agent creation failed:', error.message);
+            process.exit(1);
+          }
+        "
       env:
         AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
         AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
@@ -69,6 +85,22 @@ jobs:
             console.log('✅ Package imports successfully without Azure credentials');
           } catch (error) {
             console.error('❌ Package import failed:', error.message);
+            process.exit(1);
+          }
+        "
+
+    - name: Test agent functionality (without Azure credentials)
+      run: |
+        echo "Testing agent functionality without Azure credentials..."
+        node -e "
+          try {
+            const { azureClient } = await import('./dist/src/clients/index.js');
+            const { createAgent } = await import('./dist/src/agents/index.js');
+            const model = await azureClient.getModel();
+            const agent = await createAgent(model, []);
+            console.log('✅ Agent created successfully without Azure credentials');
+          } catch (error) {
+            console.error('❌ Agent creation failed:', error.message);
             process.exit(1);
           }
         "
