@@ -1,0 +1,31 @@
+{
+  "name": "azure-langchain-agents",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "node --loader ts-node/esm test.ts",
+    "test": "node test.ts",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@langchain/community": "^0.3.49",
+    "@langchain/core": "^0.3.66",
+    "@langchain/langgraph": "^0.3.11",
+    "@langchain/openai": "^0.6.3",
+    "dotenv": "^17.2.1",
+    "langchain": "^0.3.30",
+    "langsmith": "^0.3.49",
+    "zod": "^4.0.10"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.8.3"
+  }
+}

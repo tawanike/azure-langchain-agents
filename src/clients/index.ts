@@ -1,0 +1,1 @@
+export { azureClient } from "./azure.js";
