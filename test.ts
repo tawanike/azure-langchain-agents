@@ -1,7 +1,13 @@
 import { azureClient } from "./src/clients/azure.js";
+import { createAgent } from "./src/agents/index.js";
 
 const model = await azureClient.getModel();
-const embeddings = await azureClient.getEmbeddingsModel();
+const tools: any[] = [];
 
-console.log(await model.invoke("Hello, how are you?"));
-console.log(await embeddings.embedQuery("Hello, how are you?"));
+const agent = await createAgent(model, tools);
+
+const result = await agent.invoke({
+    input: "Hello, how are you?"
+});
+
+console.log(result);
